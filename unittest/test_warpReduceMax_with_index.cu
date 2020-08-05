@@ -1,6 +1,6 @@
-#include "doctest.h"
+#include <albp/doctest.hpp>
 
-#include <gpu_bsw/kernel.hpp>
+#include <gpu_bsw/kernel_utilities.hpp>
 
 #include <thrust/device_vector.h>
 

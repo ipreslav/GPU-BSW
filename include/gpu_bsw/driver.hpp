@@ -2,7 +2,7 @@
 #define DRIVER_HPP
 
 #include <gpu_bsw/driver.hpp>
-#include <gpu_bsw/kernel.hpp>
+#include <gpu_bsw/kernel_short.hpp>
 
 #include <albp/memory.hpp>
 #include <albp/page_locked_fasta.hpp>

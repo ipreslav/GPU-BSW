@@ -71,6 +71,9 @@ constexpr std::array<short,576> blosum50 = {// 24 x 24 table
 int main(int argc, char* argv[]){
   constexpr std::array<short,2> match_mismatch_scores = {1, -3};
 
+  albp::Timer total_time;
+  total_time.start();
+
   //Prevent compiler warnings
   (void)blosum62;
   (void)blosum50;
@@ -90,9 +93,6 @@ int main(int argc, char* argv[]){
   constexpr size_t chunk_size = 10000;
   constexpr int streams_per_gpu = 2;
 
-  albp::Timer timer_calc;
-  timer_calc.start();
-
   AlignmentResults results;
   if(in_arg == "aa"){
  	  results = gpu_bsw_driver::kernel_driver<DataType::RNA>(input_data, blosum62.data(), -6, -1, streams_per_gpu, chunk_size);
@@ -103,7 +103,7 @@ int main(int argc, char* argv[]){
     return -1;
   }
 
-  timer_calc.stop();
+  total_time.stop();
 
   std::ofstream results_file(out_file);
   for(size_t k = 0; k < input_data.sequence_count(); k++){
@@ -112,8 +112,8 @@ int main(int argc, char* argv[]){
   results_file.close();
 
   std::cout << "Total Cells = "<<input_data.total_cells_1_to_1()<<std::endl;
-  std::cout << "Wall-time   = "<<timer_calc.getSeconds()<<std::endl;
-  std::cout << "GCUPS       = "<<(input_data.total_cells_1_to_1()/timer_calc.getSeconds()/(1e9))<<std::endl;
+  std::cout << "Wall-time   = "<<total_time.getSeconds()<<std::endl;
+  std::cout << "GCUPS       = "<<(input_data.total_cells_1_to_1()/total_time.getSeconds()/(1e9))<<std::endl;
 
   return 0;
 }

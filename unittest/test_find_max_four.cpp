@@ -1,4 +1,4 @@
-#include "doctest.h"
+#include <albp/doctest.hpp>
 
 #include <gpu_bsw/kernel.hpp>
 
